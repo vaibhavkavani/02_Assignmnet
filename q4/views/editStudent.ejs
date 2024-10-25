@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Student</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center; 
+    }
+    input {
+      margin: 10px 0; 
+      padding: 8px;
+      width: 200px; 
+    }
+    button {
+      padding: 10px 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Edit Student Information</h1>
+  <form action="/students/<%= student._id %>/edit" method="POST">
+    Name:<input type="text" id="name" name="name" value="<%= student.name %>" required>
+    Age:<input type="number" id="age" name="age" value="<%= student.age %>" required>
+    Course: <input type="text" id="course" name="course" value="<%= student.course %>" required>
+    <button type="submit">Save Changes</button>
+  </form>
+  <a href="/students">Back to Student List</a>
+</body>
+</html>

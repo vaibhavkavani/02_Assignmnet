@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Student</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>Edit Student</h1>
+  <form id="editStudentForm">
+    Name: <input type="text" id="name" name="name" required> <br/>
+    Email: <input type="email" id="email" name="email" required> <br/>
+    Age: <input type="number" id="age" name="age" required><br/>
+    Course:<input type="text" id="course" name="course" required><br/>
+    <button type="submit">Update Student</button>
+  </form>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentId = urlParams.get('id');
+
+    $(document).ready(function() {
+      $.ajax({
+        url: '/students/' + studentId,
+        method: 'GET',
+        xhrFields: {
+          withCredentials: true 
+        },
+        success: function(data) {
+          $('#name').val(data.name);
+          $('#email').val(data.email);
+          $('#age').val(data.age);
+          $('#course').val(data.course);
+        },
+        error: function(xhr) {
+          alert('Failed to load student: ' + xhr.responseJSON.error);
+        }
+      });
+
+      $('#editStudentForm').on('submit', function(event) {
+        event.preventDefault();
+        
+        $.ajax({
+          url: '/students/' + studentId + '/edit',
+          method: 'POST',
+          data: $(this).serialize(),
+          xhrFields: {
+            withCredentials: true 
+          },
+          success: function(response) {
+            alert('Student updated successfully!');
+            window.location.href = '/students.html'; 
+          },
+          error: function(xhr) {
+            alert('Failed to update student: ' + xhr.responseJSON.error);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
